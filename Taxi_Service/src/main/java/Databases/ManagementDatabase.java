@@ -52,7 +52,7 @@ public class ManagementDatabase extends SQLDatabase<Manager> {
 
 	@Override
 	public Manager show(int id) {
-		String search = "SELECT email_address FROM +table_name WHERE id = ? ";
+		String search = "SELECT email_address FROM" + table_name + " WHERE id  " + id;
 		try {
 			rs = stat.executeQuery(search);
 			if(rs.next()) {
@@ -72,11 +72,11 @@ public class ManagementDatabase extends SQLDatabase<Manager> {
 
 	@Override
 	public int update(Manager Fields, int id) {
-		String update = "UPDATE +table_name WHERE id = ? ";
+		String update = "UPDATE" + table_name + " WHERE id =  " + id;
 		try {
 			stat.executeQuery(update);
 			
-			update = "SELECT id, email_address, password FROM +table_name";
+			update = "SELECT id, email_address, password FROM " + table_name;
 			rs = stat.executeQuery(update);
 			while(rs.next()) {
 				rs.getInt(id);
@@ -115,12 +115,12 @@ public class ManagementDatabase extends SQLDatabase<Manager> {
 
 	@Override
 	public int delete(int id) {
-		String delete = "DELETE FROM +table_name WHERE id = ?";
+		String delete = "DELETE FROM " + table_name + " WHERE id = " + id;
 		try {
 			stat.executeQuery(delete);
 			
 			
-			delete = "SELECT id,email_address,password FROM +table_name";
+			delete = "SELECT id,email_address,password FROM "+ table_name;
 			
 			rs = stat.executeQuery(delete);
 			while(rs.next()) {
@@ -161,7 +161,7 @@ public class ManagementDatabase extends SQLDatabase<Manager> {
 
 	@Override
 	public int add(Manager Fields) {
-		String sql = "INSERT INTO "+table_name+ " (id, email_address, password) values (?, ?, ?)";
+		String sql = "INSERT INTO "+ table_name + " (id, email_address, password) values (?, ?, ?)";
 		try {
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setInt(1, Fields.getId());

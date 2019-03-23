@@ -33,7 +33,7 @@ public class CabDatabase extends SQLDatabase<Cab> {
 		List<Cab> Class = new ArrayList<Cab>();
 		try {
 			stat = con.createStatement();
-			String sql ="SELECT * FROM " +Table_Name;
+			String sql ="SELECT * FROM " + Table_Name;
 			
 			rs = stat.executeQuery(sql);
 			
@@ -56,7 +56,7 @@ public class CabDatabase extends SQLDatabase<Cab> {
 
 	@Override
 	public Cab show(int licenseNumber) {
-		String search = "SELECT trn,model,driver,status,year FROM +Table_Name WHERE licenseNumber = ? ";
+		String search = "SELECT trn,model,driver,status,year FROM " + Table_Name + "WHERE licenseNumber = " + licenseNumber;
 		try {
 			rs = stat.executeQuery(search);
 			if(rs.next()) {
@@ -75,11 +75,11 @@ public class CabDatabase extends SQLDatabase<Cab> {
 
 	@Override
 	public int update(Cab Fields, int licenseNumber) {
-		String update = "UPDATE +Table_Name WHERE requestNumber = ? ";
+		String update = "UPDATE"  + Table_Name +  "WHERE requestNumber =  "+ licenseNumber;
 		try {
 			stat.executeQuery(update);
 			
-			update = "SELECT licenseNumber,trn,model,driver,status,year FROM +Table_Name";
+			update = "SELECT licenseNumber,trn,model,driver,status,year FROM " + Table_Name;
 			rs = stat.executeQuery(update);
 			while(rs.next()) {
 				rs.getString(licenseNumber);
@@ -130,7 +130,7 @@ public class CabDatabase extends SQLDatabase<Cab> {
 			stat.executeQuery(delete);
 			
 			
-			delete = "SELECT licenseNumber,trn,model,driver,status,year FROM +Table_Name";
+			delete = "SELECT licenseNumber,trn,model,driver,status,year FROM" + Table_Name;
 			
 			rs = stat.executeQuery(delete);
 			while(rs.next()) {

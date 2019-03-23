@@ -52,7 +52,7 @@ public class CustomerDatabase extends SQLDatabase<Customer> {
 
 	@Override
 	public Customer show(int phoneNumber) {
-		String search = "SELECT fname,lname FROM +Table_Name WHERE phoneNumber = ? ";
+		String search = "SELECT fname,lname FROM " + Table_Name + " WHERE phoneNumber = ? ";
 		try {
 			rs = stat.executeQuery(search);
 			if(rs.next()) {
@@ -72,7 +72,7 @@ public class CustomerDatabase extends SQLDatabase<Customer> {
 
 	@Override
 	public int update(Customer Fields, int phoneNumber) {
-		String update = "UPDATE +Table_Name WHERE phoneNumber = ? ";
+		String update = "UPDATE"  +Table_Name + " WHERE phoneNumber =  "+ phoneNumber;
 		try {
 			stat.executeQuery(update);
 			
@@ -115,7 +115,7 @@ public class CustomerDatabase extends SQLDatabase<Customer> {
 
 	@Override
 	public int delete(int phoneNumber) {
-		String delete = "DELETE FROM +Table_Name WHERE phoneNumber = ?";
+		String delete = "DELETE FROM"  + Table_Name + "WHERE phoneNumber = " + phoneNumber;
 		try {
 			stat.executeQuery(delete);
 			

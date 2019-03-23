@@ -15,7 +15,7 @@ public class RatingDatabase extends SQLDatabase<Rating> {
 	protected void InitialSQLDatabase() {
 		try {
 			stat = con.createStatement();
-			if(stat.execute("create table if not exsists" +Table_Name+ " (requestNumber INTEGER, experience INTEGER, feedback varchar(50), date DATE) ")) {
+			if(stat.execute("create table if not exsists" + Table_Name + " (requestNumber INTEGER, experience INTEGER, feedback varchar(50), date DATE) ")) {
 				
 			}else {
 				System.out.println("Table Created");
@@ -52,7 +52,7 @@ public class RatingDatabase extends SQLDatabase<Rating> {
 
 	@Override
 	public Rating show(int requestNumber) {
-		String search = "SELECT requestNumber,experience,feedback,date FROM +Table_Name WHERE requestNumber = ? ";
+		String search = "SELECT requestNumber,experience,feedback,date FROM" + Table_Name + "WHERE requestNumber = ? ";
 		try {
 			rs = stat.executeQuery(search);
 			if(rs.next()) {
@@ -71,12 +71,12 @@ public class RatingDatabase extends SQLDatabase<Rating> {
 
 	@Override
 	public int update(Rating Fields, int requestNumber) {
-		String update = "UPDATE +Table_Name WHERE requestNumber = ?";
+		String update = "UPDATE " + Table_Name+ " WHERE requestNumber = ?";
 		try {
 			stat.executeQuery(update);
 			
 			
-			update = "SELECT requestNumber,experience,feedback,date FROM +Table_Name";
+			update = "SELECT requestNumber,experience,feedback,date FROM" + Table_Name;
 			
 			rs = stat.executeQuery(update);
 			while(rs.next()) {
@@ -118,12 +118,12 @@ public class RatingDatabase extends SQLDatabase<Rating> {
 
 	@Override
 	public int delete(int requestNumber) {
-		String delete = "DELETE FROM +Table_Name WHERE requestNumber = ?";
+		String delete = "DELETE FROM" +Table_Name + "WHERE requestNumber = "+ requestNumber;
 		try {
 			stat.executeQuery(delete);
 			
 			
-			delete = "SELECT requestNumber,experience,feedback,date FROM +Table_Name";
+			delete = "SELECT requestNumber,experience,feedback,date FROM " + Table_Name;
 			
 			rs = stat.executeQuery(delete);
 			while(rs.next()) {
