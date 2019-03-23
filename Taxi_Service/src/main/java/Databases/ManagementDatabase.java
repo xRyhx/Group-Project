@@ -10,168 +10,298 @@ import Classes.Manager;
 
 public class ManagementDatabase extends SQLDatabase<Manager> {
 	
-	private static final String table_name = "management";
+private static final String table_name = "management_table";//lowercase
 
-	@Override
-	protected void InitialSQLDatabase() {
+
+
+	
+
+	public  ManagementDatabase() {
+
+		super();
+
 		try {
+
+			String sql = "CREATE TABLE IF NOT EXISTS" + table_name +  " ( id INTEGER PRIMARY KEY AUTOINCREMENT, email_address varchar(45), "
+
+					+ "password varchar(45) )";
+
 			stat = con.createStatement();
-			if(stat.execute("Create Table if not exsisted " + table_name +  " ( id INTEGER PRIMARY KEY AUTOINCREMENT, email_address varchar(45), password varchar(45) )")) {
-				
-			}else {
-				System.out.println("Table Created");
-			}
+
+			if(stat.execute(sql)) 
+
+				System.out.println("Table Created for the first time");
+
 		}catch(SQLException e) {
+
 			e.printStackTrace();
+
 		}
+
 		
+
 	}
 
+
+
 	@Override
+
 	public List<Manager> selectAll() {
-		List<Manager> Class = new ArrayList<Manager>();
+
+		List<Manager> managerList = new ArrayList<Manager>();
+
 		try {
+
 			stat = con.createStatement();
+
 			String sql = "SELECT * FROM " +table_name;
+
 			
+
 			rs = stat.executeQuery(sql);
+
 			
+
 			while(rs.next()) {
+
 				Manager item = new Manager();
+
 				item.setId(rs.getInt(1));
+
 				item.setEmail_Address(rs.getString(2));
+
 				item.setPassword(rs.getString(3));
+
 				
-				Class.add(item);
+
+				managerList.add(item);
+
 			}
+
 		}catch(SQLException e) {
+
 			e.printStackTrace();
+
 		}
-		return Class;
+
+		return managerList;
+
 	}
 
-	@Override
+
+
+	
+
 	public Manager show(int id) {
-		String search = "SELECT email_address FROM +table_name WHERE id = ? ";
+
+		String search = "SELECT * FROM" + table_name + " WHERE id = ? " + id;
+
 		try {
-			rs = stat.executeQuery(search);
+
+			PreparedStatement preparedStatement = con.prepareStatement(search);
+
+			preparedStatement.setInt(1, id);
+
+			rs = preparedStatement.executeQuery();
+
 			if(rs.next()) {
-				do {
-					System.out.println(rs.getInt(1)+","+rs.getString(2)+","+rs.getString(3));
-				}while(rs.next());
-			}else {
-				System.out.println("Record not Found");
-			}
-			con.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+
+				 Manager manager = new Manager(); 
+
+				 manager.setId(rs.getInt(1));
+
+				 manager.setEmail_Address(rs.getString(2));
+
+				 manager.setPassword(rs.getString(3));
+
+				 return manager;
+
 		
-		return null;
-	}
 
-	@Override
-	public int update(Manager Fields, int id) {
-		String update = "UPDATE +table_name WHERE id = ? ";
-		try {
-			stat.executeQuery(update);
-			
-			update = "SELECT id, email_address, password FROM +table_name";
-			rs = stat.executeQuery(update);
-			while(rs.next()) {
-				rs.getInt(id);
-				String email = rs.getString(2);
-				String pass = rs.getString(3);
-				
-				
-				System.out.println("Manager ID:" +id);
-				System.out.println("Manager Email: " +email);
-				System.out.println("Manager Password: " +pass);
-			}
-			rs.close();
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}catch(Exception e) {
-			e.printStackTrace();
-		}finally {
-			try {
-				if(stat!=null) {
-					con.close();
-				}
-			}catch(SQLException e) {
-				
-			}try {
-				if(con!=null) {
-					con.close();
-				}
-				
-				}catch(SQLException e) {
-					e.printStackTrace();
-			}
-		}
-		System.out.println("Record Updated");
-		return 0;
-	}
+			}	
 
-	@Override
-	public int delete(int id) {
-		String delete = "DELETE FROM +table_name WHERE id = ?";
-		try {
-			stat.executeQuery(delete);
-			
-			
-			delete = "SELECT id,email_address,password FROM +table_name";
-			
-			rs = stat.executeQuery(delete);
-			while(rs.next()) {
-				rs.getInt(id);
-				String email = rs.getString(2);
-				String pass = rs.getString(3);
-				
-				
-				System.out.println("Manager id: " +id);
-				System.out.println("Manager Email: " +email);
-				System.out.println("Manager Password: " +pass);
-			}
-			rs.close();
-			
 		} catch (SQLException e) {
+
 			e.printStackTrace();
-		}catch(Exception e) {
-			e.printStackTrace();
-		}finally {
-			try {
-				if(stat!=null) {
-					con.close();
-				}
-			}catch(SQLException e) {
-				
-			}try {
-				if(con!=null) {
-					con.close();
-				}
-				
-				}catch(SQLException e) {
-					e.printStackTrace();
-			}
+
 		}
-		System.out.println("Record Deleted");
-		return 0;
+
+		
+
+		return null;
+
 	}
 
-	@Override
-	public int add(Manager Fields) {
-		String sql = "INSERT INTO "+table_name+ " (id, email_address, password) values (?, ?, ?)";
+
+
+	
+
+	public int update(Manager Fields, int id) {
+
+		String update = "UPDATE SET id = ?, SET email_address = ?, SET password = ?"
+
+	   + table_name + " WHERE id = ? ";
+
+		
+
+		int affectedRows = 0; 
+
+		
+
 		try {
-			PreparedStatement st = con.prepareStatement(sql);
-			st.setInt(1, Fields.getId());
-			st.setString(2, Fields.getEmail_Address());
-			st.setString(3, Fields.getPassword());
-			return st.executeUpdate();
+
+			PreparedStatement preparedStatement = con.prepareStatement(update); 
+
+			preparedStatement.setInt(1, Fields.getId());
+
+			preparedStatement.setString(2, Fields.getEmail_Address());
+
+			preparedStatement.setString(3, Fields.getPassword());
+
+			preparedStatement.setInt(4, id);
+
+			affectedRows = preparedStatement.executeUpdate();
+
 		}catch(SQLException e) {
+
 			e.printStackTrace();
+
+		}catch(Exception e) {
+
+			e.printStackTrace();
+
+		}finally {
+
+			try {
+
+				if(stat!=null) {
+
+					con.close();
+
+				}
+
+			}catch(SQLException e) {
+
+				
+
+			}try {
+
+				if(con!=null) {
+
+					con.close();
+
+				}
+
+				
+
+				}catch(SQLException e) {
+
+					e.printStackTrace();
+
+			}
+
 		}
-		return 0;
+
+		return affectedRows;
+
 	}
+
+
+
+	
+
+	public int delete(int id) {
+
+		String delete = "DELETE FROM " + table_name + " WHERE id = ?";
+
+		int affectedRows = 0; 
+
+		try {
+
+			PreparedStatement preparedStatement = con.prepareStatement(delete); 
+
+			preparedStatement.setInt(1, id);
+
+			affectedRows = preparedStatement.executeUpdate();
+
+			
+
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+
+		}catch(Exception e) {
+
+			e.printStackTrace();
+
+		}finally {
+
+			try {
+
+				if(stat!=null) {
+
+					con.close();
+
+				}
+
+			}catch(SQLException e) {
+
+				
+
+			}try {
+
+				if(con!=null) {
+
+					con.close();
+
+				}
+
+				
+
+				}catch(SQLException e) {
+
+					e.printStackTrace();
+
+			}
+
+		}
+
+		
+
+		return affectedRows;
+
+	}
+
+
+
+	@Override
+
+	public int add(Manager Fields) {
+
+		String sql = "INSERT INTO "+ table_name + " (id, email_address, password) values (?, ?, ?)";
+
+		try {
+
+			PreparedStatement st = con.prepareStatement(sql);
+
+			st.setInt(1, Fields.getId());
+
+			st.setString(2, Fields.getEmail_Address());
+
+			st.setString(3, Fields.getPassword());
+
+			return st.executeUpdate();
+
+		}catch(SQLException e) {
+
+			e.printStackTrace();
+
+		}
+
+		return 0;
+
+	}
+
+
 
 }
