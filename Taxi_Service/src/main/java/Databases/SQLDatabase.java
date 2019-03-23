@@ -19,10 +19,7 @@ abstract public class SQLDatabase<D> {
 		try {
 			Class.forName(Driver).newInstance();
 			String url = "jbdc:mysql://localhost:3306/taxi_Service";
-			con = DriverManager.getConnection(url);
-			
-			InitialSQLDatabase();
-			
+			con = DriverManager.getConnection(url);		
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}catch(ClassNotFoundException e) {
@@ -35,16 +32,8 @@ abstract public class SQLDatabase<D> {
 			e.printStackTrace();
 		}
 	}
-	abstract protected void InitialSQLDatabase();
-
+	
 	abstract public List<D> selectAll();
-
-	abstract public D show(int id);
-
-	abstract public int update(D Fields,int id);
-	
-	abstract public int delete(int id);
-	
 	abstract public int add(D Fields);
 }
 
