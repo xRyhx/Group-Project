@@ -1,7 +1,8 @@
 package Databases;
 
-import java.sql.PreparedStatement;
+
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,12 +15,10 @@ public class RatingDatabase extends SQLDatabase<Rating> {
 	@Override
 	protected void InitialSQLDatabase() {
 		try {
-			stat = con.createStatement();
-			if(stat.execute("create table if not exsists" + Table_Name + " (requestNumber INTEGER, experience INTEGER, feedback varchar(50), date DATE) ")) {
-				
-			}else {
-				System.out.println("Table Created");
-			}
+			Statement statement = con.createStatement();
+			String sql = "CREATE TABLE IF NOT EXISTS" + Table_Name + " (requestNumber INTEGER, experience INTEGER, feedback varchar(50), date DATE)" ;
+			if(statement.execute(sql)) 
+				System.out.println("Table successfully created for the first time.");
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -28,9 +27,9 @@ public class RatingDatabase extends SQLDatabase<Rating> {
 
 	@Override
 	public List<Rating> selectAll() {
-		List<Rating> Class = new ArrayList<Rating>();
+		List<Rating> ratingList = new ArrayList<Rating>();
 		try {
-			stat = con.createStatement();
+			Statement stat = con.createStatement();
 			String sql ="SELECT * FROM " +Table_Name;
 			
 			rs = stat.executeQuery(sql);
@@ -41,28 +40,25 @@ public class RatingDatabase extends SQLDatabase<Rating> {
 				item.setExperience(rs.getInt(2));
 				item.setFeedback(rs.getString(3));
 				item.setDate(rs.getDate(4));
-				
-				Class.add(item);
+				ratingList.add(item);
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return Class;
+		return ratingList;
 	}
 
 	@Override
 	public Rating show(int requestNumber) {
 		String search = "SELECT requestNumber,experience,feedback,date FROM" + Table_Name + "WHERE requestNumber = ? ";
+	
 		try {
-			rs = stat.executeQuery(search);
-			if(rs.next()) {
-				do {
+			stat = con.prepareStatement(search); 
+			rs = stat.executeQuery();
+			if(rs.next()) 
 					System.out.println(rs.getInt(1)+","+rs.getInt(2)+","+rs.getString(3)+","+rs.getDate(4));
-				}while(rs.next());
-			}else {
-				System.out.println("Record not Found");
-			}
-			con.close();
+			else 
+				System.out.println("Record not found.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -90,7 +86,6 @@ public class RatingDatabase extends SQLDatabase<Rating> {
 				System.out.println("Customer Feedbacl: " +Feedback);
 				System.out.println("Date:" +date);
 			}
-			rs.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -112,33 +107,16 @@ public class RatingDatabase extends SQLDatabase<Rating> {
 					e.printStackTrace();
 			}
 		}
-		System.out.println("Record Deleted");
 		return 0;
 	}
 
 	@Override
 	public int delete(int requestNumber) {
-		String delete = "DELETE FROM" +Table_Name + "WHERE requestNumber = "+ requestNumber;
+		String delete = "DELETE FROM " + Table_Name + "WHERE requestNumber = ?";
+		int affectedRows = 0; 
 		try {
-			stat.executeQuery(delete);
-			
-			
-			delete = "SELECT requestNumber,experience,feedback,date FROM " + Table_Name;
-			
-			rs = stat.executeQuery(delete);
-			while(rs.next()) {
-				rs.getInt(requestNumber);
-				int experience = rs.getInt(2);
-				String Feedback = rs.getString(3);
-				Date date = rs.getDate(4);
-				
-				System.out.println("Request Number for Rating: " +requestNumber);
-				System.out.println("Cab experience: " +experience);
-				System.out.println("Customer Feedback: " +Feedback);
-				System.out.println("Date:" +date);
-			}
-			rs.close();
-			
+			stat = con.prepareStatement(delete);
+			affectedRows = stat.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}catch(Exception e) {
@@ -160,24 +138,24 @@ public class RatingDatabase extends SQLDatabase<Rating> {
 			}
 		}
 		System.out.println("Record Deleted");
-		return 0;
+		return affectedRows;
 	}
 
 	@Override
 	public int add(Rating Fields) {
-		String sql = "INSERT INTO "+Table_Name+ " (requestNumber, experience, feedback, date) values (?, ?, ?, ?)";
+		String sql = "INSERT INTO " + Table_Name +" (requestNumber, experience, feedback, date) values (?, ?, ?, ?)";
+		int affectedRows = 0;
 		try {
-			PreparedStatement st = con.prepareStatement(sql);
-			st.setInt(1, Fields.getRequestNumber());
-			st.setInt(2, Fields.getExperience());
-			st.setString(3, Fields.getFeedback());
-			st.setDate(4, (java.sql.Date) Fields.getDate());
-			return st.executeUpdate();
+			stat = con.prepareStatement(sql);
+			stat.setInt(1, Fields.getRequestNumber());
+			stat.setInt(2, Fields.getExperience());
+			stat.setString(3, Fields.getFeedback());
+			stat.setDate(4, (java.sql.Date) Fields.getDate());
+			affectedRows = stat.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return 0;
-
+		return affectedRows;
 	}
 }
 

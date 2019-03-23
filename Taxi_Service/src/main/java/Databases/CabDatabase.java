@@ -2,6 +2,7 @@ package Databases;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,9 +16,10 @@ public class CabDatabase extends SQLDatabase<Cab> {
 	@Override
 	protected void InitialSQLDatabase() {
 		try {
-			stat = con.createStatement();
-			if(stat.execute("Create Table if not exsists " +Table_Name + "(LicenseNumber varchar(6) PRIMARY KEY, trn INTEGER, model varchar(30), driver varchar(30), status varchar(20),year INTEGER )")) {
-				
+			String sql = "CREATE TABLE IF NOT EXISTS " + Table_Name + "(LicenseNumber varchar(6) PRIMARY KEY, trn INTEGER, model varchar(30), driver varchar(30), status varchar(20),year INTEGER )";
+			Statement statement = con.createStatement();
+			if(statement.execute(sql)) {
+				System.out.println("Table successfully created for the first time");
 			}else {
 				System.out.println("Table Created");
 			}
@@ -32,11 +34,10 @@ public class CabDatabase extends SQLDatabase<Cab> {
 	public List<Cab> selectAll() {
 		List<Cab> Class = new ArrayList<Cab>();
 		try {
-			stat = con.createStatement();
+			Statement statement = con.createStatement();
 			String sql ="SELECT * FROM " + Table_Name;
 			
 			rs = stat.executeQuery(sql);
-			
 			while(rs.next()) {
 				Cab item = new Cab();
 				item.setLicenseNumber(rs.getString(1));
@@ -56,15 +57,16 @@ public class CabDatabase extends SQLDatabase<Cab> {
 
 	@Override
 	public Cab show(int licenseNumber) {
-		String search = "SELECT trn,model,driver,status,year FROM " + Table_Name + "WHERE licenseNumber = " + licenseNumber;
+		String search = "SELECT trn,model,driver,status,year FROM " + Table_Name + "WHERE licenseNumber = ?";
 		try {
+			stat = con.prepareStatement(search); 
 			rs = stat.executeQuery(search);
+			Cab cab = new Cab();
 			if(rs.next()) {
-				do {
+				cab.setTrn(rs.getString(1)); 
+				cab.setModel(rs.getInt(2)); 
+				
 					System.out.println(rs.getString(1)+","+rs.getInt(2)+","+rs.getString(3)+","+rs.getString(4)+","+rs.getString(5)+","+rs.getInt(6));
-				}while(rs.next());
-			}else {
-				System.out.println("Record not Found");
 			}
 			con.close();
 		} catch (SQLException e) {
@@ -75,7 +77,7 @@ public class CabDatabase extends SQLDatabase<Cab> {
 
 	@Override
 	public int update(Cab Fields, int licenseNumber) {
-		String update = "UPDATE"  + Table_Name +  "WHERE requestNumber =  "+ licenseNumber;
+		String update = "UPDATE "  + Table_Name +  "WHERE requestNumber =  "+ licenseNumber;
 		try {
 			stat.executeQuery(update);
 			
@@ -125,7 +127,7 @@ public class CabDatabase extends SQLDatabase<Cab> {
 
 	@Override
 	public int delete(int licenseNumber) {
-		String delete = "DELETE FROM +Table_Name WHERE requestNumber = ?";
+		String delete = "DELETE FROM "+ Table_Name +  "WHERE requestNumber = " + licenseNumber;
 		try {
 			stat.executeQuery(delete);
 			
@@ -142,7 +144,7 @@ public class CabDatabase extends SQLDatabase<Cab> {
 				int year = rs.getInt(6);
 				
 				
-				System.out.println("Cab LicenseNumber:" +licenseNumber);
+				System.out.println("Cab LicenseNumber:" + licenseNumber);
 				System.out.println("Cab TRN: " +TRN);
 				System.out.println("Cab Model: " +model);
 				System.out.println("Cab Driver:" +driver);
@@ -177,7 +179,7 @@ public class CabDatabase extends SQLDatabase<Cab> {
 
 	@Override
 	public int add(Cab Fields) {
-		String sql = " INSERT INTO " +Table_Name+ " (licenseNumber, trn, model, driver, status, year) values (?, ?, ?, ?, ?, ?)";
+		String sql = " INSERT INTO " + Table_Name + " (licenseNumber, trn, model, driver, status, year) values (?, ?, ?, ?, ?, ?)";
 		try {
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1,Fields.getLicenseNumber());

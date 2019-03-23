@@ -2,6 +2,7 @@ package Databases;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,9 +16,10 @@ public class ManagementDatabase extends SQLDatabase<Manager> {
 	@Override
 	protected void InitialSQLDatabase() {
 		try {
-			stat = con.createStatement();
-			if(stat.execute("Create Table if not exsisted " + table_name +  " ( id INTEGER PRIMARY KEY AUTOINCREMENT, email_address varchar(45), password varchar(45) )")) {
-				
+			String sql = "Create Table if not exsisted " + table_name +  " ( id INTEGER PRIMARY KEY AUTOINCREMENT, email_address varchar(45), password varchar(45) )";
+			Statement statement = con.createStatement();
+			if(statement.execute(sql)) {
+				System.out.println("Table Successfully created for the first time.");
 			}else {
 				System.out.println("Table Created");
 			}
@@ -29,40 +31,33 @@ public class ManagementDatabase extends SQLDatabase<Manager> {
 
 	@Override
 	public List<Manager> selectAll() {
-		List<Manager> Class = new ArrayList<Manager>();
+		List<Manager> managerList = new ArrayList<Manager>();
 		try {
-			stat = con.createStatement();
+			Statement statement = con.createStatement();
 			String sql = "SELECT * FROM " +table_name;
-			
-			rs = stat.executeQuery(sql);
+			rs = statement.executeQuery(sql);
 			
 			while(rs.next()) {
 				Manager item = new Manager();
 				item.setId(rs.getInt(1));
 				item.setEmail_Address(rs.getString(2));
 				item.setPassword(rs.getString(3));
-				
-				Class.add(item);
+				managerList.add(item);
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return Class;
+		return managerList;
 	}
 
 	@Override
 	public Manager show(int id) {
-		String search = "SELECT email_address FROM" + table_name + " WHERE id  " + id;
+		String search = "SELECT email_address FROM" + table_name + " WHERE id = ?";
 		try {
-			rs = stat.executeQuery(search);
-			if(rs.next()) {
-				do {
+			stat = con.prepareStatement(search);
+			rs = stat.executeQuery();
+			if(rs.next()) 
 					System.out.println(rs.getInt(1)+","+rs.getString(2)+","+rs.getString(3));
-				}while(rs.next());
-			}else {
-				System.out.println("Record not Found");
-			}
-			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

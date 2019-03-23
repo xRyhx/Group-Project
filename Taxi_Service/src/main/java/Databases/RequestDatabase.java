@@ -2,6 +2,7 @@ package Databases;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,9 +15,10 @@ public class RequestDatabase extends SQLDatabase<Request>{
 	@Override
 	protected void InitialSQLDatabase() {
 		try {
-			stat = con.createStatement();
-			if(stat.execute("Create Table if not exsists " +Table_Name + "(RequestNumber INTEGER PRIMARY KEY AUTOINCREMENT, time DATE, Location varchar(30), Distance INTEGER, Quote FLOAT,Avalability varchar(20) )")) {
-				
+			String sql = "CREATE TABLE IF NOT EXISTS " + Table_Name + " (RequestNumber INTEGER PRIMARY KEY AUTOINCREMENT, time DATE, Location varchar(30), Distance INTEGER, Quote FLOAT, Avalability varchar(20) )"; 
+			Statement statement = con.createStatement(); 
+			if(statement.execute(sql)) {
+				System.out.println("Created " + Table_Name + " for the first time.");
 			}else {
 				System.out.println("Table Created");
 			}
@@ -28,12 +30,12 @@ public class RequestDatabase extends SQLDatabase<Request>{
 
 	@Override
 	public List<Request> selectAll() {
-		List<Request> Class = new ArrayList<Request>();
+		List<Request> requestList = new ArrayList<Request>();
 		try {
-			stat = con.createStatement();
-			String sql ="SELECT * FROM " +Table_Name;
-			
-			rs = stat.executeQuery(sql);
+			Statement statement = con.createStatement(); 
+			String sql = "SELECT * FROM " + Table_Name;
+		
+			rs = statement.executeQuery(sql);
 			
 			while(rs.next()) {
 				Request item = new Request();
@@ -44,23 +46,32 @@ public class RequestDatabase extends SQLDatabase<Request>{
 				item.setQuote(rs.getFloat(5));
 				item.setAvailability(rs.getString(6));
 				
-				Class.add(item);
+				requestList.add(item);
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return Class;
+		return requestList;
 	}
 
 	@Override
 	public Request show(int requestNumber) {
-		String search = "SELECT location,distance,quote,time FROM +Table_Name WHERE requestNumber = ? ";
+		String search = "SELECT location,distance,quote,time FROM " + Table_Name + " WHERE requestNumber = ? "; 
 		try {
-			rs = stat.executeQuery(search);
-			if(rs.next()) {
-				do {
-					System.out.println(rs.getInt(1)+","+rs.getDate(2)+","+rs.getString(3)+","+rs.getInt(4)+","+rs.getFloat(5)+","+rs.getString(6));
-				}while(rs.next());
+			stat = con.prepareStatement(search);
+			stat.setInt(1, requestNumber);
+			rs = stat.executeQuery();
+			Request request = new Request();
+			if(rs.next()) 
+			{
+					request.setRequestNumber(rs.getInt(1));
+					request.setTime(rs.getDate(2));
+					request.setLocation(rs.getString(3));
+					request.setDistance(rs.getInt(4));
+					request.setQuote(rs.getInt(5));
+					request.setAvailability(rs.getString(6));
+					
+	
 			}else {
 				System.out.println("Record not Found");
 			}
@@ -73,12 +84,13 @@ public class RequestDatabase extends SQLDatabase<Request>{
 
 	@Override
 	public int update(Request Fields, int requestNumber) {
-		String update = "UPDATE +Table_Name WHERE requestNumber = ? ";
+		String update = "UPDATE " + Table_Name + " WHERE requestNumber = ?";
 		try {
-			stat.executeQuery(update);
-			
-			update = "SELECT requestNumber,time,location,distance,quote,availability FROM +Table_Name";
-			rs = stat.executeQuery(update);
+			stat = con.prepareStatement(update); 
+			stat.setInt(1, requestNumber);
+			rs = stat.executeQuery();
+			update = "SELECT requestNumber,time,location,distance,quote,availability FROM " + Table_Name;
+		
 			while(rs.next()) {
 				rs.getInt(requestNumber);
 				Date time = rs.getDate(2);
@@ -86,7 +98,6 @@ public class RequestDatabase extends SQLDatabase<Request>{
 				int Distance = rs.getInt(4);
 				float Quote = rs.getFloat(5);
 				String Availability = rs.getString(6);
-				
 				System.out.println("Request Number:" +requestNumber);
 				System.out.println("Time of Request: " +time);
 				System.out.println("Location: " +Location);
@@ -116,37 +127,17 @@ public class RequestDatabase extends SQLDatabase<Request>{
 					e.printStackTrace();
 			}
 		}
-		System.out.println("Record Updated");
 		return 0;
 	}
 
 	@Override
 	public int delete(int requestNumber) {
-		String delete = "DELETE FROM +Table_Name WHERE requestNumber = ?";
+		String delete = "DELETE FROM " + Table_Name + "WHERE requestNumber = ?";
+		int affectedRows = 0;
 		try {
-			stat.executeQuery(delete);
-			
-			
-			delete = "SELECT requestNumber,time,location,distance,quote,availability FROM +Table_Name";
-			
-			rs = stat.executeQuery(delete);
-			while(rs.next()) {
-				rs.getInt(requestNumber);
-				Date time = rs.getDate(2);
-				String Location = rs.getString(3);
-				int Distance = rs.getInt(4);
-				float Quote = rs.getFloat(5);
-				String Availability = rs.getString(6);
-				
-				System.out.println("Request Number:" +requestNumber);
-				System.out.println("Time of Request: " +time);
-				System.out.println("Location: " +Location);
-				System.out.println("Distance:" +Distance);
-				System.out.println("Quote:" +Quote);
-				System.out.println("Availability:" +Availability);
-				
-			}
-			rs.close();
+			stat = con.prepareStatement(delete); 
+			stat.setInt(1, requestNumber);
+			affectedRows = stat.executeUpdate(); 
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}catch(Exception e) {
@@ -167,26 +158,28 @@ public class RequestDatabase extends SQLDatabase<Request>{
 					e.printStackTrace();
 			}
 		}
-		System.out.println("Record Deleted");
-		return 0;
+	
+		return affectedRows;
 	}
 
 	@Override
 	public int add(Request Fields) {
-		String sql = " INSERT INTO " +Table_Name+ " (requestNumber, time, location, distance, quote, availability) values (?, ?, ?, ?, ?, ?)";
+		int affectedRows = 0;
+		String sql = "INSERT INTO " + Table_Name + " (requestNumber, time, location, distance, quote, availability) values (?, ?, ?, ?, ?, ?)";
 		try {
-			PreparedStatement st = con.prepareStatement(sql);
-			st.setInt(1, Fields.getRequestNumber());
-			st.setDate(2, (java.sql.Date) Fields.getTime());
-			st.setString(3, Fields.getLocation());
-			st.setInt(4, Fields.getDistance());
-			st.setFloat(5, Fields.getQuote());
-			st.setString(6, Fields.getAvailability());
+			PreparedStatement stat = con.prepareStatement(sql);
+			stat.setInt(1, Fields.getRequestNumber());
+			stat.setDate(2, (java.sql.Date) Fields.getTime());
+			stat.setString(3, Fields.getLocation());
+			stat.setInt(4, Fields.getDistance());
+			stat.setFloat(5, Fields.getQuote());
+			stat.setString(6, Fields.getAvailability());
+			affectedRows = stat.executeUpdate(); 
+			if(affectedRows != 0)
+				System.out.println("Record successfully added");
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return 0;
+		return affectedRows;
 	}
-	
-
 }

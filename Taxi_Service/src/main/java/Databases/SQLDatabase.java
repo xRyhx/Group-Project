@@ -2,15 +2,15 @@ package Databases;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 abstract public class SQLDatabase<D> {
 
 	protected Connection con = null;
-	protected Statement stat = null;
+	protected PreparedStatement stat = null;
 	protected ResultSet rs = null;
 	
 	private static final String Driver= "com.mysql.jbdc.Driver";
