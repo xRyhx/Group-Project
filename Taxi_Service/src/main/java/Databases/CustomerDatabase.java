@@ -11,6 +11,7 @@ public class CustomerDatabase extends SQLDatabase<Customer> {
 	
 	private static final String Table_Name = "customer";//Table name lowercase.
 
+
 	private final String sql = "CREATE TABLE IF NOT EXISTS " +Table_Name + "(phoneNumber INTEGER PRIMARY KEY, "
 
 			+ "email varchar(10), fname varchar(20), lname varchar(20) )";

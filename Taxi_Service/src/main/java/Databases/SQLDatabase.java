@@ -29,7 +29,7 @@ abstract public class SQLDatabase<D> {
 
 			String url = "jbdc:mysql://localhost:3306/taxi_service";//database name
 
-			con = DriverManager.getConnection(url,"root","");//user and  password should be added		
+			con = DriverManager.getConnection(url,"root","");//user, password		
 
 		}catch(SQLException e) {
 

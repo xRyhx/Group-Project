@@ -10,6 +10,7 @@ import Classes.Request;
 
 public class RequestDatabase extends SQLDatabase<Request>{
 
+
 private static final String Table_Name = "cab_request";//lowercase for table name.
 
 	
