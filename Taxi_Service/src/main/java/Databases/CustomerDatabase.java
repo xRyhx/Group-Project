@@ -9,7 +9,7 @@ import Classes.Customer;
 
 public class CustomerDatabase extends SQLDatabase<Customer> {
 	
-	private static final String Table_Name = "Customer_Table";
+	private static final String Table_Name = "customer_table";
 	private final String sql = "CREATE TABLE IF NOT EXISTS " +Table_Name + "(phoneNumber INTEGER PRIMARY KEY, "
 			+ "email varchar(10), fname varchar(20), lname varchar(20) )";
 	public CustomerDatabase(){
@@ -93,13 +93,6 @@ public class CustomerDatabase extends SQLDatabase<Customer> {
 					con.close();
 				}
 			}catch(SQLException e) {
-				
-			}try {
-				if(con!=null) {
-					con.close();
-				}
-				
-				}catch(SQLException e) {
 					e.printStackTrace();
 			}
 		}
@@ -118,23 +111,7 @@ public class CustomerDatabase extends SQLDatabase<Customer> {
 			e.printStackTrace();
 		}catch(Exception e) {
 			e.printStackTrace();
-		}finally {
-			try {
-				if(stat!=null) {
-					con.close();
-				}
-			}catch(SQLException e) {
-				
-			}try {
-				if(con!=null) {
-					con.close();
-				}
-				
-				}catch(SQLException e) {
-					e.printStackTrace();
-			}
 		}
-		System.out.println("Record Deleted");
 		return affectedRows;
 	}
 

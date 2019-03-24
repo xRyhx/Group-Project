@@ -9,23 +9,20 @@ import Classes.Cab;
 
 
 public class CabDatabase extends SQLDatabase<Cab> {
-	private static final String Table_Name = "Cab_Table";
-
-	
+	private static final String Table_Name = "cab_table";
 	 public CabDatabase() {
 		// TODO Auto-generated constructor stub
 		 super();
 		 try {
-			
 			stat = con.createStatement();
-			String sql = "CREATE TABLE IF NOT EXISTS " +Table_Name + "(LicenseNumber varchar(6) PRIMARY KEY, trn INTEGER, model varchar(30), driver varchar(30), status varchar(20),year INTEGER )";
+			String sql = "CREATE TABLE IF NOT EXISTS " +Table_Name + 
+					"(LicenseNumber varchar(6) PRIMARY KEY, trn INTEGER,"
+					+ " model varchar(30), driver varchar(30), status varchar(20),year INTEGER )";
 			if(stat.execute(sql))
 				System.out.println("Table created  for the first time."); 
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
 	}
 
 	@Override
@@ -52,7 +49,6 @@ public class CabDatabase extends SQLDatabase<Cab> {
 		}
 		return cabList;
 	}
-
 	
 	public Cab show(String licenseNumber) {
 		String search = "SELECT trn, model,driver,status,year FROM " + Table_Name + "WHERE licenseNumber = ?";
@@ -97,21 +93,6 @@ public class CabDatabase extends SQLDatabase<Cab> {
 			e.printStackTrace();
 		}catch(Exception e) {
 			e.printStackTrace();
-		}finally {
-			try {
-				if(stat!=null) {
-					con.close();
-				}
-			}catch(SQLException e) {
-				
-			}try {
-				if(con!=null) {
-					con.close();
-				}
-				
-				}catch(SQLException e) {
-					e.printStackTrace();
-			}
 		}
 		return affectedRows;
 	}

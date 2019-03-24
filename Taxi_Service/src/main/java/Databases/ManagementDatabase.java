@@ -10,7 +10,7 @@ import Classes.Manager;
 
 public class ManagementDatabase extends SQLDatabase<Manager> {
 	
-	private static final String table_name = "Management_Table";
+	private static final String table_name = "management_table";
 
 	
 	public  ManagementDatabase() {
