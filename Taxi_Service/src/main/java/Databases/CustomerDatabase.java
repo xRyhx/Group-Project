@@ -9,7 +9,7 @@ import Classes.Customer;
 
 public class CustomerDatabase extends SQLDatabase<Customer> {
 	
-	private static final String Table_Name = "customer";//Table name lowercast
+	private static final String Table_Name = "customer";//Table name lowercase
 
 	private final String sql = "CREATE TABLE IF NOT EXISTS " +Table_Name + "(phoneNumber INTEGER PRIMARY KEY, "
 

@@ -11,7 +11,7 @@ import Classes.Rating;
 
 public class RatingDatabase extends SQLDatabase<Rating> {
 
-private static final String Table_Name = "ratings_table";//lowercase
+private static final String Table_Name = "ratings_table";//lowercase for table name
 
 	
 
