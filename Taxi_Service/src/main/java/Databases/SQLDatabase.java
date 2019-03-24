@@ -17,7 +17,7 @@ abstract public class SQLDatabase<D> {
 
 	
 
-	private static final String Driver= "com.mysql.cj.jbdc.Driver";//Driver name
+	private static final String Driver= "com.mysql.cj.jbdc.Driver";//Driver name.
 
 	
 

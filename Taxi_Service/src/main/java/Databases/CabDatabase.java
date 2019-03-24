@@ -11,7 +11,7 @@ import Classes.Customer;
 
 
 public class CabDatabase extends SQLDatabase<Cab> {
-	private static final String Table_Name = "cab_table";//lowercase for table name
+	private static final String Table_Name = "cab_table";//lowercase for table name.
 
 
 
