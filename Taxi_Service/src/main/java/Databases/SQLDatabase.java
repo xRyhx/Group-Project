@@ -12,14 +12,15 @@ abstract public class SQLDatabase<D> {
 	protected Connection con = null;
 	protected Statement stat = null;
 	protected ResultSet rs = null;
-	
+	String user = "root"; 
+	String password = "Jahknow12";
 	private static final String Driver= "com.mysql.cj.jdbc.Driver";
 	
 	public SQLDatabase() {
 		try {
 			Class.forName(Driver).newInstance();
-			String url = "jdbc:mysql://127.0.0.1:3306";
-			con = DriverManager.getConnection(url);		
+			String url = "jdbc:mysql://127.0.0.1:3306/taxi_Service";
+			con = DriverManager.getConnection(url,user,password);		
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}catch(ClassNotFoundException e) {

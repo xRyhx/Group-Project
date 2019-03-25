@@ -14,7 +14,7 @@ public class Server {
 	private ServerSocket server = null; 
 	private Socket client = null; 
 	private ExecutorService executor = null;
-	private int NumClients  = 100;
+	private int NumClients  = 5;
 	//private ObjectOutputStream output = null; 
 	//private ObjectInputStream input = null; 
 	private final int portNumber = 55000;
@@ -64,7 +64,7 @@ public class Server {
 				{
 					client = server.accept();
 					Runnable worker = new RequestHandler(client);
-					executor.execute(worker);
+					executor.execute(worker); 
 				}
 				//connectStreams(); 
 			} catch (IOException e) {

@@ -31,12 +31,12 @@ public class RequestHandler implements Runnable{
 
 	public void run() {
 		//TODO Auto-generated method stub
-		int options; 
-		connectStreams();
-		while(true)
-		{
+		int options = 0; 
+		
 			try {
+				connectStreams();
 				options = input.readInt();
+				System.out.println(options + " request");
 				switch(options)
 				{
 				case 1:
@@ -67,8 +67,6 @@ public class RequestHandler implements Runnable{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-		}
 	}
 	
 	public void dbActions(int options, CabDatabase cabDB)

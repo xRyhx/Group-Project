@@ -25,10 +25,10 @@ public class Client {
 			setInput(new ObjectInputStream(socket.getInputStream()));
 		} catch (UnknownHostException e) {
 			System.err.println(e.getMessage());
-			e.printStackTrace();
+			e.printStackTrace(); 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			System.out.println(e.getMessage());
+			System.out.println(e.getMessage()); 
 			e.printStackTrace();
 		} //connects to a socket on a port specified by port number
 	}
@@ -78,33 +78,34 @@ public class Client {
 		System.out.println("This is our taxi service.");
 		Scanner in = new Scanner(System.in); 
 		try {
-			int option; 
+			int [] option = new int[2];
 			while(true)
 			{
 			 display(); 
-			 option = in.nextInt(); 
-			output.writeInt(option);
-			databaseOptions();
-			option = in.nextInt(); 
-			output.writeInt(option);
-			switch(option)
+			 option[0] = in.nextInt(); 
+			 output.writeInt(option[0]);
+			 databaseOptions();
+			 option[1] = in.nextInt(); 
+			 switch(option[0])
 			{
 				case 1:
-						Operations(option, new Cab());
+						output.writeInt(option[1]);
+						Operations(option[1], new Cab());
 					break; 
 				case 2:
-					Operations(option, new Customer());
+					Operations(option[1], new Customer());
 					break; 
 				case 3:
-					Operations(option, new Manager());
+					Operations(option[1], new Manager());
 					break; 
 				case 4:
-					Operations(option, new Rating());
+					Operations(option[1], new Rating());
 					break; 
 				case 5:
-					Operations(option, new Request());
+					Operations(option[1], new Request());
 					break; 
 				default:
+					System.out.println("Option doesn't exist");
 					break;
 			}
 			}
@@ -113,6 +114,10 @@ public class Client {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
+		finally
+		{
+			in.close();
+		}
 		}
 
 	public void Operations(int option, Cab cab)
@@ -508,10 +513,6 @@ public class Client {
 		System.out.println("3)Enter 3 to carry out operations on management database");
 		System.out.println("4)Enter 4 to carry out operations on rating database");
 		System.out.println("5)Enter 5 to carry out operations on request databse");
-		//Scanner in = new Scanner(System.in); 
-		///int options = in.nextInt(); 
-		//in.close();
-		//return options;
 	}
 	
 	public void databaseOptions()
@@ -521,10 +522,6 @@ public class Client {
 		System.out.println("3)Enter 3 to search for a record.");
 		System.out.println("4)Enter 4 to update a record.");
 		System.out.println("5)Enter 5 to delete a record.");
-		//Scanner in = new Scanner(System.in); 
-		//int options = in.nextInt(); 
-		//in.close();
-		///return options;
 	}
 
 	public static void main(String[] args) {
