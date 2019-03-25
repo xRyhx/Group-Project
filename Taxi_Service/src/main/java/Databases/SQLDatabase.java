@@ -13,12 +13,12 @@ abstract public class SQLDatabase<D> {
 	protected Statement stat = null;
 	protected ResultSet rs = null;
 	
-	private static final String Driver= "com.mysql.jbdc.Driver";
+	private static final String Driver= "com.mysql.cj.jdbc.Driver";
 	
 	public SQLDatabase() {
 		try {
 			Class.forName(Driver).newInstance();
-			String url = "jbdc:mysql://localhost:3306/taxi_Service";
+			String url = "jdbc:mysql://127.0.0.1:3306";
 			con = DriverManager.getConnection(url);		
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -33,6 +33,16 @@ abstract public class SQLDatabase<D> {
 		}
 	}
 	
+	public void closeConnection()
+	{
+		try {
+			if(con != null)
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	abstract public List<D> selectAll();
 	abstract public int add(D Fields);
 }

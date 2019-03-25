@@ -1,8 +1,10 @@
 package Server;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
+//import java.io.ObjectInputStream;
+//import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -11,9 +13,11 @@ public class Server {
 
 	private ServerSocket server = null; 
 	private Socket client = null; 
-	private ObjectOutputStream output = null; 
-	private ObjectInputStream input = null; 
-	int portNumber = 55000;
+	private ExecutorService executor = null;
+	private int NumClients  = 100;
+	//private ObjectOutputStream output = null; 
+	//private ObjectInputStream input = null; 
+	private final int portNumber = 55000;
 	
 	public Server()
 	{
@@ -26,7 +30,7 @@ public class Server {
 		}
 	}
 	
-	private void connectStreams()
+	/*private void connectStreams()
 	{
 		
 		try {
@@ -48,15 +52,21 @@ public class Server {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	
 	 
 	public void makeConnection()//waits for a connection from a client
 	{
 			try {
-				client = server.accept();
-				connectStreams(); 
+				executor = Executors.newFixedThreadPool(NumClients);
+				while(true)
+				{
+					client = server.accept();
+					Runnable worker = new RequestHandler(client);
+					executor.execute(worker);
+				}
+				//connectStreams(); 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -64,4 +74,9 @@ public class Server {
 		
 	}
 	
+	public static void main(String[] args) {
+		Server taxiServer = new Server(); 
+		taxiServer.makeConnection();
+
+	}
 }

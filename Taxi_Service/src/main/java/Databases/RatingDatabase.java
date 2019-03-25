@@ -14,7 +14,7 @@ public class RatingDatabase extends SQLDatabase<Rating> {
 	public RatingDatabase(){
 		super(); 
 		String sql = "CREATE TABLE IF NOT EXISTS " + Table_Name + 
-				" (requestNumber INTEGER, experience INTEGER, feedback varchar(50), date DATE)";
+				" (requestNumber INTEGER PRIMARY KEY, experience INTEGER, feedback varchar(50), date DATE)";
 		try {
 			stat = con.createStatement();
 			if(stat.execute(sql)) 

@@ -14,7 +14,6 @@ abstract public class Fields implements Serializable {
 		this(0,"");
 	}
 	public Fields(int id, String name) {
-		super();
 		this.id = id;
 		this.name = name;
 		
