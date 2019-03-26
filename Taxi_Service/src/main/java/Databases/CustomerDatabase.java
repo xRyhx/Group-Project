@@ -10,7 +10,7 @@ import Classes.Customer;
 public class CustomerDatabase extends SQLDatabase<Customer> {
 	
 	private static final String Table_Name = "customer_table";
-	private final String sql = "CREATE TABLE IF NOT EXISTS " +Table_Name + "(phoneNumber INTEGER PRIMARY KEY, "
+	private final String sql = "CREATE TABLE IF NOT EXISTS " +Table_Name + " (phoneNumber INTEGER PRIMARY KEY, "
 			+ "email varchar(10), fname varchar(20), lname varchar(20) )";
 	public CustomerDatabase(){
 		super();
@@ -19,7 +19,7 @@ public class CustomerDatabase extends SQLDatabase<Customer> {
 			if(stat.execute(sql)) 
 				System.out.println("Table Created successfully for the first time.");
 		}catch(SQLException e) {
-			e.printStackTrace();
+			e.printStackTrace(); 
 		}
 		
 	}
@@ -72,7 +72,7 @@ public class CustomerDatabase extends SQLDatabase<Customer> {
 
 	public int update(Customer Fields, int phoneNumber) {
 		String update = "UPDATE "  + Table_Name + " SET phooneNumber = ?, SET email = ?, SET fname = ?"
-				+ "SET lname = ? WHERE phoneNumber =  "+ phoneNumber;
+				+ ", SET lname = ? WHERE phoneNumber =  "+ phoneNumber;
 		int affectedRows = 0; 
 		try {
 			
@@ -100,7 +100,7 @@ public class CustomerDatabase extends SQLDatabase<Customer> {
 	}
 
 	public int delete(int phoneNumber) {
-		String sql = "DELETE FROM"  + Table_Name + "WHERE phoneNumber = ?";
+		String sql = "DELETE FROM "  + Table_Name + " WHERE phoneNumber = ?";
 		int affectedRows = 0; 
 		try {
 			PreparedStatement preparedStatement = con.prepareStatement(sql);

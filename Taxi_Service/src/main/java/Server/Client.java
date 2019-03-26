@@ -1,11 +1,11 @@
 package Server;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import Classes.*;
@@ -24,7 +24,7 @@ public class Client {
 			setOutput(new ObjectOutputStream(socket.getOutputStream())); 
 			setInput(new ObjectInputStream(socket.getInputStream()));
 		} catch (UnknownHostException e) {
-			System.err.println(e.getMessage());
+			System.err.println(e.getMessage()); 
 			e.printStackTrace(); 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -76,21 +76,24 @@ public class Client {
 	{
 		System.out.println("Welcome, to our test server!!!");
 		System.out.println("This is our taxi service.");
-		Scanner in = new Scanner(System.in); 
+		int [] option = new int[2];
 		try {
-			int [] option = new int[2];
+			
 			while(true)
 			{
+			 Scanner in = new Scanner(System.in);
 			 display(); 
 			 option[0] = in.nextInt(); 
 			 output.writeInt(option[0]);
+			 output.flush();
 			 databaseOptions();
 			 option[1] = in.nextInt(); 
+			 output.writeInt(option[1]);
+			 output.flush(); 
 			 switch(option[0])
 			{
 				case 1:
-						output.writeInt(option[1]);
-						Operations(option[1], new Cab());
+					Operations(option[1], new Cab());
 					break; 
 				case 2:
 					Operations(option[1], new Customer());
@@ -108,16 +111,18 @@ public class Client {
 					System.out.println("Option doesn't exist");
 					break;
 			}
+			 in.close();
 			}
 			}
 		 catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-		finally
+		catch(NoSuchElementException e)
 		{
-			in.close();
+			e.printStackTrace();
 		}
+
 		}
 
 	public void Operations(int option, Cab cab)
@@ -150,10 +155,12 @@ public class Client {
 			} 
 			break;
 			case 3:
-				System.out.println("Enter licencse number to update: ");
+				System.out.println("Enter licencse number to search for: ");
 			try {
 				output.writeObject(input.nextLine());
+				output.flush();
 				cab = (Cab) this.input.readObject(); 
+				if(cab != null)
 				System.out.println(cab.toString());
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
@@ -165,7 +172,7 @@ public class Client {
 				
 			break; 
 			case 4:
-				System.out.println("Enter licencse number to update: ");
+				System.out.println("Enter licencse number to delete: ");
 			try {
 				output.writeObject(input.nextLine());
 				cab = (Cab) this.input.readObject(); 
@@ -203,7 +210,7 @@ public class Client {
 		switch(option)
 		{
 			case 1:
-				customer.populateFields();
+
 			try {
 				output.writeObject(customer);
 				if(this.input.readInt() > 0)
@@ -230,6 +237,7 @@ public class Client {
 				System.out.println("Enter phone number of the customer to search: ");
 			try {
 				output.writeObject(input.nextInt());
+				output.flush();
 				customer = (Customer) this.input.readObject(); 
 				System.out.println(customer.toString());
 			} catch (IOException e) {
@@ -244,6 +252,7 @@ public class Client {
 				System.out.println("Enter phone number of the customer to update: ");
 			try {
 				output.writeInt(input.nextInt());
+				output.flush();
 				customer = (Customer) this.input.readObject();
 				customer.UpdateFields();
 				output.writeObject(customer);
@@ -283,6 +292,7 @@ public class Client {
 				manager.populateFields();
 			try {
 				output.writeObject(manager);
+				output.flush();
 				if(this.input.readInt() > 0)
 					System.out.println("Successfully added");
 			} catch (IOException e) {
@@ -310,6 +320,7 @@ public class Client {
 				System.out.println("Please enter id to search for: "); 
 			try {
 				output.writeInt(input.nextInt());
+				output.flush();
 				manager = (Manager) this.input.readObject(); 
 				System.out.println(manager.toString());
 			} catch (IOException e) {
@@ -324,6 +335,7 @@ public class Client {
 				System.out.println("Please enter id to update for: "); 
 			try {
 				output.writeInt(input.nextInt());
+				output.flush();
 				manager = (Manager) this.input.readObject(); 
 				manager.UpdateFields();
 				output.writeObject(manager); 
@@ -339,6 +351,7 @@ public class Client {
 				System.out.println("Please enter id to delete: "); 
 			try {
 				output.writeInt(input.nextInt());
+				output.flush();
 				if(this.input.readInt() > 0)
 					System.out.println("Successfully deleted");
 			} catch (IOException e) {
@@ -360,6 +373,7 @@ public class Client {
 				request.populateFields();
 			try {
 				output.writeObject(request);
+				output.flush();
 				if(this.input.readInt() > 0)
 					System.out.println("Successfully added");
 			} catch (IOException e) {
@@ -384,6 +398,7 @@ public class Client {
 				System.out.println("Enter request number to search for: ");
 			try {
 				output.writeInt(input.nextInt());
+				output.flush();
 				try {
 					request = (Request) this.input.readObject();
 				} catch (ClassNotFoundException e) {
@@ -399,6 +414,7 @@ public class Client {
 				System.out.println("Enter request number to update: ");
 			try {
 				output.writeInt(input.nextInt());
+				output.flush();
 				request = (Request) this.input.readObject();
 				request.UpdateFields();
 				output.writeObject(request);
@@ -417,6 +433,7 @@ public class Client {
 				System.out.println("Enter request number to update: ");
 			try {
 				output.writeInt(input.nextInt());
+				output.flush();
 				if(this.input.readInt() > 0)
 					System.out.println("Successfully deleted");
 			} catch (IOException e) {
@@ -439,6 +456,7 @@ public class Client {
 				rating.populateFields();
 			try {
 				output.writeObject(rating);
+				output.flush();
 				if(this.input.readInt() > 0)
 					System.out.println("Successfully added");
 			} catch (IOException e) {
@@ -463,6 +481,7 @@ public class Client {
 				System.out.println("Enter request number to search for: ");
 			try {
 				output.writeInt(input.nextInt());
+				output.flush();
 				rating = (Rating) this.input.readObject();
 				System.out.println(rating.toString());
 			} catch (IOException e) {
@@ -477,6 +496,7 @@ public class Client {
 				System.out.println("Enter request number to update: ");
 			try {
 				output.writeInt(input.nextInt());
+				output.flush();
 				rating = (Rating) this.input.readObject();
 				rating.UpdateFields();
 				output.writeObject(rating);
@@ -494,6 +514,7 @@ public class Client {
 				System.out.println("Enter request number to update: ");
 			try {
 				output.writeInt(input.nextInt());
+				output.flush();
 				if(this.input.readInt() > 0)
 					System.out.println("Successfully deleted");
 			} catch (IOException e) {

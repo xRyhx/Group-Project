@@ -36,7 +36,6 @@ public class RequestHandler implements Runnable{
 			try {
 				connectStreams();
 				options = input.readInt();
-				System.out.println(options + " request");
 				switch(options)
 				{
 				case 1:
@@ -97,6 +96,7 @@ public class RequestHandler implements Runnable{
 			try {
 				String licenseNumber = (String)input.readObject();
 				output.writeObject(cabDB.show(licenseNumber));
+				output.flush();
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -134,6 +134,12 @@ public class RequestHandler implements Runnable{
 			default: 
 				System.out.println("An error occured please try again!!!"); 
 			break; 
+		}
+		try {
+			output.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	

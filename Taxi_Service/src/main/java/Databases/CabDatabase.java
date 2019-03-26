@@ -9,14 +9,14 @@ import Classes.Cab;
 
 
 public class CabDatabase extends SQLDatabase<Cab> {
-	private static final String Table_Name = "cab_table";
+	private static final String  Table_Name = "cab_table";
 	 public CabDatabase() {
 		// TODO Auto-generated constructor stub
 		 super();
 		 try {
 			stat = con.createStatement();
 			String sql = "CREATE TABLE IF NOT EXISTS " +Table_Name + 
-					"(LicenseNumber varchar(6) PRIMARY KEY, trn INTEGER,"
+					" (LicenseNumber varchar(6) PRIMARY KEY, trn INTEGER,"
 					+ " model varchar(30), driver varchar(30), status varchar(20),year INTEGER )";
 			if(stat.execute(sql))
 				System.out.println("Table created  for the first time."); 
@@ -51,7 +51,7 @@ public class CabDatabase extends SQLDatabase<Cab> {
 	}
 	
 	public Cab show(String licenseNumber) {
-		String search = "SELECT trn, model,driver,status,year FROM " + Table_Name + "WHERE licenseNumber = ?";
+		String search = "SELECT trn, model,driver,status,year FROM " + Table_Name + " WHERE licenseNumber = ?";
 		try {
 			PreparedStatement preparedStatement = con.prepareStatement(search); 
 			preparedStatement.setString(1, licenseNumber);
@@ -99,7 +99,7 @@ public class CabDatabase extends SQLDatabase<Cab> {
 
 	
 	public int delete(String licenseNumber) {
-		String sql = "DELETE FROM "+ Table_Name + "WHERE requestNumber = ?";
+		String sql = "DELETE FROM "+ Table_Name + " WHERE requestNumber = ?";
 		int affectedRows = 0 ;
 		try {
 			PreparedStatement preparedStatement = con.prepareStatement(sql); 
@@ -126,10 +126,11 @@ public class CabDatabase extends SQLDatabase<Cab> {
 			preparedStatement.setString(5, Fields.getSatus());;
 			preparedStatement.setInt(6, Fields.getYear());
 			affectedRows = preparedStatement.executeUpdate();
-		}catch(SQLException e) {
+			return affectedRows; 
+			}catch(SQLException e) { 
 			e.printStackTrace();
 		}
-		return affectedRows;	
+		return 0;	
 	}
 	
 }

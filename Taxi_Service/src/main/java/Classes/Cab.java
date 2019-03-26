@@ -85,7 +85,7 @@ public class Cab implements Serializable, UserInput{
 	}
 
 	public void UpdateFields() {
-		if(firstUse == true)
+		if(firstUse == true) 
 		{
 			System.out.println("It's the first time your using this object will call populate fields."); 
 			populateFields();
@@ -153,6 +153,7 @@ public class Cab implements Serializable, UserInput{
 		setModel(input.nextLine()); 
 		System.out.println("Enter driver");
 		setDriver(input.nextLine());
+		input.nextLine();
 		System.out.println("Enter staus: "); 
 		setDriver(input.nextLine()); 
 		System.out.println("Enter year: "); 

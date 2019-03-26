@@ -17,7 +17,7 @@ public class Server {
 	private int NumClients  = 5;
 	//private ObjectOutputStream output = null; 
 	//private ObjectInputStream input = null; 
-	private final int portNumber = 55000;
+	private final int portNumber = 55000; 
 	
 	public Server()
 	{
@@ -27,7 +27,7 @@ public class Server {
 			// TODO Auto-generated catch block
 			System.err.println(e.getMessage());
 			e.printStackTrace();
-		}
+		} 
 	}
 	
 	/*private void connectStreams()
@@ -64,7 +64,7 @@ public class Server {
 				{
 					client = server.accept();
 					Runnable worker = new RequestHandler(client);
-					executor.execute(worker); 
+					executor.execute(worker);
 				}
 				//connectStreams(); 
 			} catch (IOException e) {

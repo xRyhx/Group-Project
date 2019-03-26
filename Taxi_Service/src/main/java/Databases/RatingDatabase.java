@@ -51,7 +51,7 @@ public class RatingDatabase extends SQLDatabase<Rating> {
 
 
 	public Rating show(int requestNumber) {
-		String search = "SELECT * FROM" + Table_Name + "WHERE requestNumber = ?";
+		String search = "SELECT * FROM" + Table_Name + " WHERE requestNumber = ?";
 		try {
 			PreparedStatement preparedStatement = con.prepareStatement(search); 
 			preparedStatement.setInt(1, requestNumber); 
@@ -72,8 +72,8 @@ public class RatingDatabase extends SQLDatabase<Rating> {
 
 
 	public int update(Rating Fields, int requestNumber) {
-		String update = "UPDATE  SET requestNumber = ?, SET experience = ?, SET feedback = ?,"
-				+ " SET date = ?" + Table_Name+ " WHERE requestNumber = ?";
+		String update = "UPDATE  SET requestNumber = ?, SET experience = ?, SET feedback = ?, "
+				+ "SET date = ?" + Table_Name+ " WHERE requestNumber = ?";
 		
 		int affectedRows = 0;
 		

@@ -16,7 +16,7 @@ public class ManagementDatabase extends SQLDatabase<Manager> {
 	public  ManagementDatabase() {
 		super();
 		try {
-			String sql = "CREATE TABLE IF NOT EXISTS" + table_name +  " ( id INTEGER PRIMARY KEY AUTOINCREMENT, email_address varchar(45), "
+			String sql = "CREATE TABLE IF NOT EXISTS " + table_name +  " ( id INTEGER PRIMARY KEY AUTOINCREMENT, email_address varchar(45), "
 					+ "password varchar(45) )";
 			stat = con.createStatement();
 			if(stat.execute(sql)) 
@@ -52,7 +52,7 @@ public class ManagementDatabase extends SQLDatabase<Manager> {
 
 	
 	public Manager show(int id) {
-		String search = "SELECT * FROM" + table_name + " WHERE id = ? " + id;
+		String search = "SELECT * FROM " + table_name + " WHERE id = ? " + id;
 		try {
 			PreparedStatement preparedStatement = con.prepareStatement(search);
 			preparedStatement.setInt(1, id);
