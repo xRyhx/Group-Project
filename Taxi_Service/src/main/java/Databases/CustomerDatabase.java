@@ -119,7 +119,7 @@ public class CustomerDatabase extends SQLDatabase<Customer> {
 
 	@Override
 	public int add(Customer Fields) {
-		String sql = "INSERT INTO "+Table_Name+ " (phoneNumber, email, First Name, Last Name) values (?, ?, ?, ?)";
+		String sql = "INSERT INTO "+Table_Name+ " (phoneNumber, email, First Name, Last Name)" + "values (?, ?, ?, ?)";
 		try {
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setInt(1, Fields.getPhoneNumber());
