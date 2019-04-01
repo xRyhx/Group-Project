@@ -153,7 +153,6 @@ public class Cab implements Serializable, UserInput{
 		setModel(input.nextLine()); 
 		System.out.println("Enter driver");
 		setDriver(input.nextLine());
-		input.nextLine();
 		System.out.println("Enter staus: "); 
 		setDriver(input.nextLine()); 
 		System.out.println("Enter year: "); 

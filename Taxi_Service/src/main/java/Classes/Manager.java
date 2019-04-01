@@ -104,6 +104,7 @@ public class Manager implements Serializable, UserInput{
 		setId(input.nextInt());
 		System.out.println("Enter email address: ");
 		setEmail_Address(input.nextLine());
+		input.nextLine();
 		System.out.println("Enter password: ");
 		setPassword(input.nextLine()); 
 		input.close();

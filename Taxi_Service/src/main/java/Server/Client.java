@@ -172,7 +172,7 @@ public class Client {
 				
 			break; 
 			case 4:
-				System.out.println("Enter licencse number to delete: ");
+				System.out.println("Enter licencse number to update: ");
 			try {
 				output.writeObject(input.nextLine());
 				cab = (Cab) this.input.readObject(); 
@@ -191,7 +191,7 @@ public class Client {
 			try {
 				output.writeObject(input.nextLine());
 				if(this.input.readInt() > 0)
-					System.out.println("Successfully updated!!!");
+					System.out.println("Successfully deleted!!!");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -210,13 +210,12 @@ public class Client {
 		switch(option)
 		{
 			case 1:
-
+				customer.populateFields();
 			try {
 				output.writeObject(customer);
 				if(this.input.readInt() > 0)
 					System.out.println("Successfully added!!!");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} 
 			break;
@@ -236,9 +235,10 @@ public class Client {
 			case 3:
 				System.out.println("Enter phone number of the customer to search: ");
 			try {
-				output.writeObject(input.nextInt());
+				output.writeInt(input.nextInt());
 				output.flush();
 				customer = (Customer) this.input.readObject(); 
+				if(customer != null)
 				System.out.println(customer.toString());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -251,8 +251,7 @@ public class Client {
 			case 4:
 				System.out.println("Enter phone number of the customer to update: ");
 			try {
-				output.writeInt(input.nextInt());
-				output.flush();
+				output.writeObject(input.nextInt());
 				customer = (Customer) this.input.readObject();
 				customer.UpdateFields();
 				output.writeObject(customer);
@@ -267,11 +266,11 @@ public class Client {
 			} 
 			break;
 			case 5:
-				System.out.println("Enter phone number of the customer to update: ");
+				System.out.println("Enter phone number of the customer to delete: ");
 			try {
 				output.writeInt(input.nextInt());
 				if(this.input.readInt() > 0)
-					System.out.println("Successfully updated.");
+					System.out.println("Successfully deleted.");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -292,7 +291,6 @@ public class Client {
 				manager.populateFields();
 			try {
 				output.writeObject(manager);
-				output.flush();
 				if(this.input.readInt() > 0)
 					System.out.println("Successfully added");
 			} catch (IOException e) {
@@ -319,9 +317,10 @@ public class Client {
 			case 3:
 				System.out.println("Please enter id to search for: "); 
 			try {
-				output.writeInt(input.nextInt());
+				output.writeObject(input.nextInt());
 				output.flush();
 				manager = (Manager) this.input.readObject(); 
+				if(manager != null)
 				System.out.println(manager.toString());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -334,7 +333,7 @@ public class Client {
 			case 4:
 				System.out.println("Please enter id to update for: "); 
 			try {
-				output.writeInt(input.nextInt());
+				output.writeObject(input.nextInt());
 				output.flush();
 				manager = (Manager) this.input.readObject(); 
 				manager.UpdateFields();
@@ -397,23 +396,22 @@ public class Client {
 			case 3:
 				System.out.println("Enter request number to search for: ");
 			try {
-				output.writeInt(input.nextInt());
+				output.writeObject(input.nextInt());
 				output.flush();
-				try {
-					request = (Request) this.input.readObject();
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				} 
+				request = (Request) this.input.readObject();
+				if(request !=null)
 				System.out.println(request.toString());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}catch(ClassNotFoundException e) {
 				e.printStackTrace();
 			}
 			break; 
 			case 4:
 				System.out.println("Enter request number to update: ");
 			try {
-				output.writeInt(input.nextInt());
+				output.writeObject(input.nextInt());
 				output.flush();
 				request = (Request) this.input.readObject();
 				request.UpdateFields();
@@ -430,7 +428,7 @@ public class Client {
 				
 			break;
 			case 5:
-				System.out.println("Enter request number to update: ");
+				System.out.println("Enter request number to delete: ");
 			try {
 				output.writeInt(input.nextInt());
 				output.flush();
@@ -480,7 +478,7 @@ public class Client {
 			case 3:
 				System.out.println("Enter request number to search for: ");
 			try {
-				output.writeInt(input.nextInt());
+				output.writeObject(input.nextInt());
 				output.flush();
 				rating = (Rating) this.input.readObject();
 				System.out.println(rating.toString());
@@ -511,7 +509,7 @@ public class Client {
 			}
 			break;
 			case 5:
-				System.out.println("Enter request number to update: ");
+				System.out.println("Enter request number to delete: ");
 			try {
 				output.writeInt(input.nextInt());
 				output.flush();

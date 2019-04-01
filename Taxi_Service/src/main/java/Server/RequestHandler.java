@@ -169,8 +169,9 @@ public class RequestHandler implements Runnable{
 				break; 
 			case 3:
 			try {
-				int phoneNumber = input.readInt();
+				int phoneNumber = (Integer) input.readInt();
 				output.writeObject(customerDB.show(phoneNumber));
+				output.flush();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -178,7 +179,7 @@ public class RequestHandler implements Runnable{
 			break; 
 			case 4: 
 			try {
-				int phoneNumber = input.readInt();
+				int phoneNumber = (Integer) input.readObject();
 				output.writeObject(customerDB.show(phoneNumber));
 				Customer customer = (Customer)input.readObject();
 				output.writeInt(customerDB.update(customer, customer.getPhoneNumber()));
@@ -231,16 +232,21 @@ public class RequestHandler implements Runnable{
 				break; 
 			case 3:
 			try {
-				int id = input.readInt();
+				int id = (Integer) input.readObject();
 				output.writeObject(manageDB.show(id));
+				Manager manager = (Manager)input.readObject();
+				output.writeInt(manageDB.update(manager, manager.getId()));
 			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break; 
 			case 4: 
 			try {
-				int id = input.readInt();
+				int id = (Integer) input.readObject();
 				output.writeObject(manageDB.show(id));
 				Manager manager = (Manager)input.readObject();
 				output.writeInt(manageDB.update(manager, manager.getId()));
@@ -272,6 +278,7 @@ public class RequestHandler implements Runnable{
 		switch(options)
 		{
 			case 1:
+			
 			try {
 				Rating rating = (Rating)input.readObject();
 				output.writeInt(ratingDB.add(rating));
@@ -293,10 +300,13 @@ public class RequestHandler implements Runnable{
 				break; 
 			case 3:
 			try {
-				int requestNumber = input.readInt();
+				int requestNumber = (Integer) input.readObject();
 				output.writeObject(ratingDB.show(requestNumber));
+				output.flush();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}catch(ClassNotFoundException e) {
 				e.printStackTrace();
 			}
 			break; 

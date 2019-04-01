@@ -122,6 +122,7 @@ public class Customer implements Serializable, UserInput {
 		setPhoneNumber(input.nextInt());
 		System.out.println("Enter email: ");
 		setEmail(input.nextLine()); 
+		input.nextLine();
 		System.out.println("Enter first name: ");
 		setFName(input.nextLine());
 		System.out.println("Enter last name: "); 
