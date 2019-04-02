@@ -105,7 +105,7 @@ public class CabDatabase extends SQLDatabase<Cab> {
 			PreparedStatement ps = con.prepareStatement(query);
 			ps.setString(1, licenseNumber);
 			
-			ps.executeUpdate();
+			ps.execute();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

@@ -73,7 +73,7 @@ public class CustomerDatabase extends SQLDatabase<Customer> {
 
 
 	public int update(Customer Fields, int phoneNumber) {
-		String update = "UPDATE "  + Table_Name + " set phooneNumber = ?, email = ?, First_Name = ?"
+		String update = "UPDATE "  + Table_Name + " set phoneNumber = ?, email = ?, First_Name = ?"
 				+ ", Last_Name = ? where phoneNumber = ? ";
 		int affectedRows = 0; 
 		try {
