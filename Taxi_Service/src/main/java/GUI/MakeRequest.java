@@ -7,6 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MakeRequest {
 
@@ -84,6 +86,11 @@ public class MakeRequest {
 		frame.getContentPane().add(label_1);
 		
 		JButton btnBack = new JButton("back");
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MainMenu main = new MainMenu();
+			}
+		});
 		btnBack.setBounds(379, 221, 55, 23);
 		frame.getContentPane().add(btnBack);
 	}

@@ -1,0 +1,65 @@
+[33mcommit 633dfbaa8b3a2176a2238a4782db45ecb52416d7[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: r2newell <newell-romario@hotmail.com>
+Date:   Sun Mar 24 00:11:06 2019 -0500
+
+    Revert "Merge branch 'master' of https://github.com/xRyhx/Group-Project"
+    Reverted a merge due some problems
+    This reverts commit 78c3004329c48a180997c29e2340b9868356a501, reversing
+    changes made to 9121799e852d2bd9ebcc5a62bd05e245405076c5.
+
+[33mcommit 78c3004329c48a180997c29e2340b9868356a501[m
+Merge: 9121799 6bf8cbb
+Author: r2newell <newell-romario@hotmail.com>
+Date:   Sun Mar 24 00:01:25 2019 -0500
+
+    Merge branch 'master' of https://github.com/xRyhx/Group-Project
+
+[33mcommit 6bf8cbb00eb1ca980ce48698439d26403f43dc96[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: joden <joden@DESKTOP-US9A784>
+Date:   Sat Mar 23 18:50:46 2019 -0500
+
+    Database Changes
+
+[33mcommit 9121799e852d2bd9ebcc5a62bd05e245405076c5[m
+Author: r2newell <newell-romario@hotmail.com>
+Date:   Sat Mar 23 13:28:52 2019 -0500
+
+    Fixed problems with database logic
+            modified:   Taxi_Service/src/main/java/Classes/Rating.java
+            modified:   Taxi_Service/src/main/java/Classes/Request.java
+            modified:   Taxi_Service/src/main/java/Databases/CabDatabase.java
+            modified:   Taxi_Service/src/main/java/Databases/CustomerDatabase.java
+            modified:   Taxi_Service/src/main/java/Databases/ManagementDatabase.java
+            modified:   Taxi_Service/src/main/java/Databases/RatingDatabase.java
+            modified:   Taxi_Service/src/main/java/Databases/RequestDatabase.java
+            modified:   Taxi_Service/src/main/java/Databases/SQLDatabase.java
+
+[33mcommit 195a68eef1560b2ca15f93fb8d2a51dcc9d433cb[m
+Author: r2newell <newell-romario@hotmail.com>
+Date:   Sat Mar 23 15:06:07 2019 -0500
+
+    Created a simple server need to implement database with the server.
+
+[33mcommit 0d42ce6a1fbb8208dc33298c47dad18f33d9540c[m
+Author: joden <joden@DESKTOP-US9A784>
+Date:   Wed Mar 20 09:57:57 2019 -0500
+
+    Management Database
+
+[33mcommit 193e7a88f787526f521f351d34b458fb1506bc48[m
+Author: joden <joden@DESKTOP-US9A784>
+Date:   Sun Mar 17 21:44:11 2019 -0500
+
+    Databases
+
+[33mcommit 3f233c31e363967564ded7e3d0241a79811b072d[m
+Author: xRyhx <r.ryhane@gmail.com>
+Date:   Thu Feb 14 15:30:10 2019 -0500
+
+    add gitignore
+
+[33mcommit 00d3e839324f080461ba514663a2690bb6227fd3[m
+Author: xRyhx <r.ryhane@gmail.com>
+Date:   Thu Feb 14 15:20:21 2019 -0500
+
+    Initial commit

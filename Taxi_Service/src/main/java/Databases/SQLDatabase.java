@@ -12,17 +12,15 @@ abstract public class SQLDatabase<D> {
 	protected Connection con = null;
 	protected Statement stat = null;
 	protected ResultSet rs = null;
-	
-	private static final String Driver= "com.mysql.jbdc.Driver";
+	String user = "root"; 
+	String password = "Jahknow12";
+	private static final String Driver= "com.mysql.cj.jdbc.Driver";
 	
 	public SQLDatabase() {
 		try {
 			Class.forName(Driver).newInstance();
-			String url = "jbdc:mysql://localhost:3306/taxi_Service";
-			con = DriverManager.getConnection(url);
-			
-			InitialSQLDatabase();
-			
+			String url = "jdbc:mysql://127.0.0.1:3306/taxi_Service";
+			con = DriverManager.getConnection(url,user,password);		
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}catch(ClassNotFoundException e) {
@@ -35,16 +33,18 @@ abstract public class SQLDatabase<D> {
 			e.printStackTrace();
 		}
 	}
-	abstract protected void InitialSQLDatabase();
-
+	
+	public void closeConnection()
+	{
+		try {
+			if(con != null)
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	abstract public List<D> selectAll();
-
-	abstract public D show(int id);
-
-	abstract public int update(D Fields,int id);
-	
-	abstract public int delete(int id);
-	
 	abstract public int add(D Fields);
 }
 

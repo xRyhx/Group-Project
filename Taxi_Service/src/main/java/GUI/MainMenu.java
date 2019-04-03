@@ -6,6 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MainMenu {
 
@@ -44,14 +46,31 @@ public class MainMenu {
 		frame.getContentPane().setLayout(null);
 		
 		JButton btnGeneralFeedback = new JButton("General Feedback");
+		btnGeneralFeedback.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GeneralFeedback generalFeedback = new GeneralFeedback();
+			}
+		});
 		btnGeneralFeedback.setBounds(152, 182, 119, 43);
 		frame.getContentPane().add(btnGeneralFeedback);
 		
 		JButton btnLogin = new JButton("Login");
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Login login= new Login();
+			}
+		});
 		btnLogin.setBounds(367, 11, 57, 23);
 		frame.getContentPane().add(btnLogin);
 		
 		JButton btnMakeARequest = new JButton("Make A Request");
+		btnMakeARequest.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				MakeRequest Request = new MakeRequest();
+				
+			}
+		});
 		btnMakeARequest.setBounds(118, 84, 185, 68);
 		frame.getContentPane().add(btnMakeARequest);
 		
