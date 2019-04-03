@@ -372,6 +372,7 @@ public class RequestHandler implements Runnable{
 			try {
 				int requestNumber = (Integer) input.readObject();
 				output.writeObject(requestDB.show(requestNumber));
+				output.flush();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

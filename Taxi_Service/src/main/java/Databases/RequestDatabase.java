@@ -17,7 +17,7 @@ public class RequestDatabase extends SQLDatabase<Request>{
 		try {
 			stat = con.createStatement();
 			String sql = "CREATE TABLE IF NOT EXISTS " +Table_Name + "(RequestNumber INTEGER PRIMARY KEY,"
-				+ "time DATE, Location varchar(30), Distance INTEGER, Quote FLOAT,Avalability varchar(20) )";
+				+ "time DATE, Location varchar(30), Distance INTEGER, Quote FLOAT,Availability varchar(20) )";
 			if(stat.execute(sql))
 				System.out.println("Table created successfully for the first time.");
 		}catch(SQLException e) {
@@ -62,11 +62,11 @@ public class RequestDatabase extends SQLDatabase<Request>{
 			
 			if(rs.next()) {
 				Request request  = new Request();
-				request.setRequestNumber(rs.getInt(1));
-				request.setTime(rs.getTimestamp(2));
-				request.setLocation(rs.getString(3));
-				request.setDistance(rs.getInt(4));
-				request.setQuote(rs.getFloat(5));
+				request.setRequestNumber(requestNumber);
+				request.setTime(rs.getTimestamp(1));
+				request.setLocation(rs.getString(2));
+				request.setDistance(rs.getInt(3));
+				request.setQuote(rs.getFloat(4));
 				request.setAvailability(rs.getString(5));
 				return request;
 			}
