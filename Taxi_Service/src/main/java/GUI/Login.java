@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 
 public class Login {
 
-	private JFrame frame;
+	JFrame frame;
 	private JTextField textField;
 	private JTextField textField_1;
 
@@ -49,17 +49,20 @@ public class Login {
 		frame.getContentPane().setLayout(null);
 		
 		textField = new JTextField();
-		textField.setBounds(169, 71, 176, 28);
+		textField.setBounds(181, 71, 176, 28);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Back");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//MainMenu Menu =new MainMenu();
+				
+				MainMenu M=new MainMenu();
+				M.frame.setVisible(true);
+				frame.dispose();
 			}
 		});
-		btnNewButton.setBounds(369, 227, 55, 23);
+		btnNewButton.setBounds(353, 227, 71, 23);
 		frame.getContentPane().add(btnNewButton);
 		
 		JLabel lblNewLabel = new JLabel("Username :");
@@ -67,15 +70,26 @@ public class Login {
 		frame.getContentPane().add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Password :");
-		lblNewLabel_1.setBounds(105, 137, 60, 14);
+		lblNewLabel_1.setBounds(105, 137, 66, 14);
 		frame.getContentPane().add(lblNewLabel_1);
 		
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
-		textField_1.setBounds(169, 134, 176, 28);
+		textField_1.setBounds(181, 134, 176, 28);
 		frame.getContentPane().add(textField_1);
 		
 		JButton btnLogin = new JButton("Login");
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String username = textField.getText();
+				String password = textField_1.getText();
+				
+				//pass the data to function that deals with password
+				System.out.println(username+password);
+				
+			}
+		});
 		btnLogin.setBounds(169, 201, 115, 36);
 		frame.getContentPane().add(btnLogin);
 		

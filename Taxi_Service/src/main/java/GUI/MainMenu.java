@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 
 public class MainMenu {
 
-	private JFrame frame;
+	JFrame frame;
 
 	/**
 	 * Launch the application.
@@ -48,27 +48,35 @@ public class MainMenu {
 		JButton btnGeneralFeedback = new JButton("General Feedback");
 		btnGeneralFeedback.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GeneralFeedback generalFeedback = new GeneralFeedback();
+				
+				GeneralFeedback GF = new GeneralFeedback();
+				GF.frame.setVisible(true);
+				frame.dispose();
+				
 			}
 		});
-		btnGeneralFeedback.setBounds(152, 182, 119, 43);
+		btnGeneralFeedback.setBounds(134, 183, 151, 43);
 		frame.getContentPane().add(btnGeneralFeedback);
 		
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Login login= new Login();
+				
+				Login L=new Login();
+				L.frame.setVisible(true);
+				frame.dispose();
 			}
 		});
-		btnLogin.setBounds(367, 11, 57, 23);
+		btnLogin.setBounds(353, 11, 71, 23);
 		frame.getContentPane().add(btnLogin);
 		
 		JButton btnMakeARequest = new JButton("Make A Request");
 		btnMakeARequest.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				MakeRequest Request = new MakeRequest();
-				
+				MakeRequest MR=new MakeRequest();
+				MR.frame.setVisible(true);
+				frame.dispose();
 			}
 		});
 		btnMakeARequest.setBounds(118, 84, 185, 68);
@@ -79,5 +87,4 @@ public class MainMenu {
 		lblMenu.setBounds(174, 7, 82, 23);
 		frame.getContentPane().add(lblMenu);
 	}
-
 }
