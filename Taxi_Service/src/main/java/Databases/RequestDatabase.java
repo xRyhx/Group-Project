@@ -1,5 +1,6 @@
 package Databases;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,12 +14,11 @@ public class RequestDatabase extends SQLDatabase<Request>{
 	
 	public RequestDatabase(){
 		super();
-		String sql = "CREATE TABLE IF NOT EXISTS " +Table_Name + "(RequestNumber INTEGER PRIMARY KEY"
-				+ " AUTOINCREMENT, time DATE, Location "
-				+ "varchar(30), Distance INTEGER, Quote FLOAT,Avalability varchar(20) )";
 		try {
-			
-			if(stat.execute(sql)) 
+			stat = con.createStatement();
+			String sql = "CREATE TABLE IF NOT EXISTS " +Table_Name + "(RequestNumber INTEGER PRIMARY KEY,"
+				+ "time DATE, Location varchar(30), Distance INTEGER, Quote FLOAT,Availability varchar(20) )";
+			if(stat.execute(sql))
 				System.out.println("Table created successfully for the first time.");
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -37,7 +37,7 @@ public class RequestDatabase extends SQLDatabase<Request>{
 			while(rs.next()) {
 				Request item = new Request();
 				item.setRequestNumber(rs.getInt(1));
-				item.setTime(rs.getDate(2));
+				item.setTime(rs.getTimestamp(2));
 				item.setLocation(rs.getString(3));
 				item.setDistance(rs.getInt(4));
 				item.setQuote(rs.getFloat(5));
@@ -54,7 +54,7 @@ public class RequestDatabase extends SQLDatabase<Request>{
 
 
 	public Request show(int requestNumber) {
-		String search = "SELECT * FROM"  + Table_Name + " WHERE requestNumber = ? ";
+		String search = "SELECT RequestNumber,time,Location,Distance,Quote,Availability FROM"  + Table_Name + " WHERE requestNumber = ? ";
 		try {
 			PreparedStatement preparedStatement = con.prepareStatement(search);
 			preparedStatement.setInt(1, requestNumber);
@@ -62,11 +62,11 @@ public class RequestDatabase extends SQLDatabase<Request>{
 			
 			if(rs.next()) {
 				Request request  = new Request();
-				request.setRequestNumber(rs.getInt(1));
-				request.setTime(rs.getDate(2));
-				request.setLocation(rs.getString(3));
-				request.setDistance(rs.getInt(4));
-				request.setQuote(rs.getFloat(5));
+				request.setRequestNumber(requestNumber);
+				request.setTime(rs.getTimestamp(1));
+				request.setLocation(rs.getString(2));
+				request.setDistance(rs.getInt(3));
+				request.setQuote(rs.getFloat(4));
 				request.setAvailability(rs.getString(5));
 				return request;
 			}
@@ -79,14 +79,14 @@ public class RequestDatabase extends SQLDatabase<Request>{
 
 	
 	public int update(Request Fields, int requestNumber) {
-		String update = "UPDATE "+ Table_Name+ " SET requestNumber = ?, SET time = ?, SET location = ?, SET distance = ?, "
+		String update = "UPDATE "+ Table_Name+ " set requestNumber = ?,  time = ?,  location = ?, distance = ?, "
 				+ ", availability = ?"
 				+  "WHERE requestNumber = ? ";
 		int affectedRows = 0; 
 		try {
 			PreparedStatement preparedStatement = con.prepareStatement(update); 
 			preparedStatement.setInt(1, Fields.getRequestNumber());
-			preparedStatement.setDate(2, Fields.getTime());
+			preparedStatement.setTimestamp(2, Fields.getTime());
 			preparedStatement.setString(3, Fields.getLocation());
 			preparedStatement.setInt(4, Fields.getDistance());
 			preparedStatement.setString(5, Fields.getAvailability());
@@ -120,15 +120,19 @@ public class RequestDatabase extends SQLDatabase<Request>{
 	@Override
 	public int add(Request Fields) {
 		String sql = " INSERT INTO " +Table_Name+ " (requestNumber, time, location, distance, quote, availability) values (?, ?, ?, ?, ?, ?)";
+		int affectedrow = 0;
 		try {
+			java.util.Date date = new java.util.Date();
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setInt(1, Fields.getRequestNumber());
-			st.setDate(2, Fields.getTime());
+			java.sql.Timestamp time = new java.sql.Timestamp(date.getTime());
+			st.setTimestamp(2, time);
 			st.setString(3, Fields.getLocation());
 			st.setInt(4, Fields.getDistance());
 			st.setFloat(5, Fields.getQuote());
 			st.setString(6, Fields.getAvailability());
-			return st.executeUpdate();
+			affectedrow = st.executeUpdate();
+			return affectedrow;
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}

@@ -19,8 +19,8 @@ abstract public class SQLDatabase<D> {
 	public SQLDatabase() {
 		try {
 			Class.forName(Driver).newInstance();
-			String url = "jdbc:mysql://127.0.0.1:3306/taxi_Service";
-			con = DriverManager.getConnection(url,user,password);		
+			String url = "jdbc:mysql://localhost:3306/taxi_service";  //"jdbc:mysql://127.0.0.1:3306/taxi_Service";
+			con = DriverManager.getConnection(url,"Jodene","patrice"); //con = DriverManager.getConnection(url,user,password);		
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}catch(ClassNotFoundException e) {

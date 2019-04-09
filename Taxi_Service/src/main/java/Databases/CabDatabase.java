@@ -75,9 +75,9 @@ public class CabDatabase extends SQLDatabase<Cab> {
 	}
 
 
-	public int update(Cab Fields, String licenseNumber) {
-		String update = "UPDATE "  + Table_Name +  " SET licenseNumber = ?,"
-				+ " SET trn = ?, SET model = ?, SET status = ?, SET year = ?, SET driver = ? WHERE licenseNumber = ?";
+	public int update(Cab Fields, String licenseNumber) {//working
+		String update = "UPDATE "  + Table_Name +  " set licenseNumber = ?,"
+				+ "  trn = ?, model = ?, status = ?, year = ?, driver = ? where licenseNumber = ?";
 		int affectedRows = 0; 
 		try{
 			PreparedStatement preparedStatement = con.prepareStatement(update); 
@@ -98,19 +98,18 @@ public class CabDatabase extends SQLDatabase<Cab> {
 	}
 
 	
-	public int delete(String licenseNumber) {
-		String sql = "DELETE FROM "+ Table_Name + " WHERE requestNumber = ?";
-		int affectedRows = 0 ;
+	public int delete(String licenseNumber) { //not working
 		try {
-			PreparedStatement preparedStatement = con.prepareStatement(sql); 
-			preparedStatement.setString(1, licenseNumber);
-			affectedRows = preparedStatement.executeUpdate(); 
-		}catch(SQLException e) {
-			e.printStackTrace();
+			String query ="delete from +Table_Name+ where licenseNumber = ?";
+			
+			PreparedStatement ps = con.prepareStatement(query);
+			ps.setString(1, licenseNumber);
+			
+			ps.execute();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		return affectedRows;
+		return 0;
 	}
 
 	@Override

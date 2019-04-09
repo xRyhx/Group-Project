@@ -2,6 +2,8 @@ package Classes;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 public class Rating implements Serializable, UserInput{
@@ -128,6 +130,7 @@ public class Rating implements Serializable, UserInput{
 		setExperience(input.nextInt());
 		System.out.println("Enter feedback: ");
 		setFeedback(input.nextLine());
+		input.nextLine();
 		input.close();
 	}
 }

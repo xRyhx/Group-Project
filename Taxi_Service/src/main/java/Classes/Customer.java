@@ -120,8 +120,9 @@ public class Customer implements Serializable, UserInput {
 		Scanner input = new Scanner(System.in);
 		System.out.println("Enter phone number: ");
 		setPhoneNumber(input.nextInt());
+		input.nextLine();
 		System.out.println("Enter email: ");
-		setEmail(input.nextLine()); 
+		setEmail(input.nextLine());
 		System.out.println("Enter first name: ");
 		setFName(input.nextLine());
 		System.out.println("Enter last name: "); 

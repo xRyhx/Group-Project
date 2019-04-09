@@ -2,6 +2,7 @@ package Classes;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Scanner;
 
 public class Request implements Serializable, UserInput{
@@ -11,7 +12,7 @@ public class Request implements Serializable, UserInput{
 	 */
 	private static final long serialVersionUID = 3008250346227216927L;
 	private int requestNumber;
-	private Date time;
+	private Timestamp time;
 	private String location;
 	private int distance;
 	private float quote;
@@ -43,13 +44,13 @@ public class Request implements Serializable, UserInput{
 
 
 
-	public Date getTime() {
+	public Timestamp getTime() {
 		return time;
 	}
 
 
 
-	public void setTime(Date time) {
+	public void setTime(Timestamp time) {
 		this.time = time;
 	}
 
@@ -171,12 +172,15 @@ public class Request implements Serializable, UserInput{
 		Scanner input = new Scanner(System.in); 
 		System.out.println("Enter request number: ");
 		setRequestNumber(input.nextInt());
+		input.nextLine();
 		System.out.println("Enter location: ");
 		setLocation(input.nextLine());
 		System.out.println("Enter distance: ");
 		setDistance(input.nextInt());
+		input.nextLine();
 		System.out.println("Enter quote: ");
 		setQuote(input.nextInt());
+		input.nextLine();
 		System.out.println("Enter availability: "); 
 		setAvailability(input.nextLine());
 		input.close();

@@ -48,11 +48,9 @@ public class MainMenu {
 		JButton btnGeneralFeedback = new JButton("General Feedback");
 		btnGeneralFeedback.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				GeneralFeedback GF = new GeneralFeedback();
 				GF.frame.setVisible(true);
 				frame.dispose();
-				
 			}
 		});
 		btnGeneralFeedback.setBounds(134, 183, 151, 43);

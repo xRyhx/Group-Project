@@ -1,5 +1,6 @@
 package Databases;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -51,7 +52,7 @@ public class RatingDatabase extends SQLDatabase<Rating> {
 
 
 	public Rating show(int requestNumber) {
-		String search = "SELECT * FROM" + Table_Name + " WHERE requestNumber = ?";
+		String search = "SELECT experience, feedback, date FROM" + Table_Name + " WHERE requestNumber = ?";
 		try {
 			PreparedStatement preparedStatement = con.prepareStatement(search); 
 			preparedStatement.setInt(1, requestNumber); 
@@ -72,8 +73,8 @@ public class RatingDatabase extends SQLDatabase<Rating> {
 
 
 	public int update(Rating Fields, int requestNumber) {
-		String update = "UPDATE  SET requestNumber = ?, SET experience = ?, SET feedback = ?, "
-				+ "SET date = ?" + Table_Name+ " WHERE requestNumber = ?";
+		String update = "UPDATE  set requestNumber = ?, experience = ?, feedback = ?, "
+				+ "date = ?" + Table_Name+ " WHERE requestNumber = ?";
 		
 		int affectedRows = 0;
 		
@@ -131,13 +132,16 @@ public class RatingDatabase extends SQLDatabase<Rating> {
 	@Override
 	public int add(Rating Fields) {
 		String sql = "INSERT INTO "+Table_Name+ " (requestNumber, experience, feedback, date) values (?, ?, ?, ?)";
+		int affectedRow = 0;
 		try {
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setInt(1, Fields.getRequestNumber());
 			st.setInt(2, Fields.getExperience());
 			st.setString(3, Fields.getFeedback());
-			st.setDate(4, (java.sql.Date) Fields.getDate());
-			return st.executeUpdate();
+			Date date = new java.sql.Date(new java.util.Date().getTime());
+			st.setDate(4, date);
+			affectedRow = st.executeUpdate();
+			return affectedRow;
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
