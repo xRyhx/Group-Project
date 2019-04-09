@@ -9,6 +9,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import Classes.*;
+import GUI.MainMenu;
 
 public class Client {
 	private Socket socket = null; 
@@ -545,8 +546,14 @@ public class Client {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		
+		//MainMenu M=new MainMenu();
+		//M.frame.setVisible(true);
+		
 		Client taxiClient = new Client(); 
 		taxiClient.databaseActions();
 		taxiClient.close();
+		
+		
 	}
 }

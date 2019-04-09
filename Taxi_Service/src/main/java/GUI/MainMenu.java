@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 
 public class MainMenu {
 
-	JFrame frame;
+	public JFrame frame;
 
 	/**
 	 * Launch the application.
@@ -41,20 +41,9 @@ public class MainMenu {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 450, 440);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		
-		JButton btnGeneralFeedback = new JButton("General Feedback");
-		btnGeneralFeedback.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				GeneralFeedback GF = new GeneralFeedback();
-				GF.frame.setVisible(true);
-				frame.dispose();
-			}
-		});
-		btnGeneralFeedback.setBounds(134, 183, 151, 43);
-		frame.getContentPane().add(btnGeneralFeedback);
 		
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
@@ -65,24 +54,70 @@ public class MainMenu {
 				frame.dispose();
 			}
 		});
-		btnLogin.setBounds(353, 11, 71, 23);
+		btnLogin.setBounds(353, 31, 71, 23);
 		frame.getContentPane().add(btnLogin);
-		
-		JButton btnMakeARequest = new JButton("Make A Request");
-		btnMakeARequest.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				MakeRequest MR=new MakeRequest();
-				MR.frame.setVisible(true);
-				frame.dispose();
-			}
-		});
-		btnMakeARequest.setBounds(118, 84, 185, 68);
-		frame.getContentPane().add(btnMakeARequest);
 		
 		JLabel lblMenu = new JLabel("MENU");
 		lblMenu.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblMenu.setBounds(174, 7, 82, 23);
+		lblMenu.setBounds(174, 27, 82, 23);
 		frame.getContentPane().add(lblMenu);
+		
+		JButton btnNewButton = new JButton("CAB DATABASE");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CabDatabase CD= new CabDatabase();
+				CD.frame.setVisible(true);
+				frame.dispose();
+			}
+		});
+		btnNewButton.setBounds(118, 77, 185, 36);
+		frame.getContentPane().add(btnNewButton);
+		
+		JButton button = new JButton("CUSTOMER DATABASE");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CustomerDatabase CusD =new CustomerDatabase();
+				CusD.frame.setVisible(true);
+				frame.dispose();
+			}
+		});
+		button.setBounds(118, 124, 185, 36);
+		frame.getContentPane().add(button);
+		
+		JButton button_1 = new JButton("MANAGEMENT DATABASE");
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ManagementDatabase MD = new ManagementDatabase();
+				MD.frame.setVisible(true);
+				frame.dispose();
+			}
+		});
+		button_1.setBounds(118, 168, 185, 36);
+		frame.getContentPane().add(button_1);
+		
+		JButton button_2 = new JButton("RATING DATABASE");
+		button_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RatingDatabase RD= new RatingDatabase();
+				RD.frame.setVisible(true);
+				frame.dispose();
+			}
+		});
+		button_2.setBounds(118, 215, 185, 36);
+		frame.getContentPane().add(button_2);
+		
+		JButton button_3 = new JButton("RATING DATABASE");
+		button_3.setBounds(118, 262, 185, 36);
+		frame.getContentPane().add(button_3);
+		
+		JButton button_4 = new JButton("REQUEST DATABASE");
+		button_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		button_4.setBounds(118, 309, 185, 36);
+		frame.getContentPane().add(button_4);
+		
+		
 	}
 }
